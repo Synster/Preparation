@@ -1,0 +1,34 @@
+def is_valid_state(state, n):
+    return len(state) == n
+
+def get_candidates(state, n):
+     if not state:
+            return range(n)
+    candidate = [ i for i in range(n)]
+    next_pos = len(state)
+    for i in range(n):
+        dist = next_pos - i
+        candidate.remove(i + dist)
+        candidate.remove(i - dist)
+    for x in state:
+        candidate.remove(x)
+
+    return candidate
+
+
+
+def search(state, solutions, n):
+    if is_valid_state(state, n):
+        solutions.append(state.copy())
+        # return
+
+    for candidate in get_candidates(state, n):
+        state.add(candidate)
+        search(state, solutions)
+        state.remove(candidate)
+
+def solve(n):
+    solutions = []
+    state = []
+    search(state, solutions, n)
+    return solutions
